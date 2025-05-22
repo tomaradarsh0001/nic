@@ -224,10 +224,7 @@ class DashboardController extends Controller
          $data['applicationData'] = $this->getApplicationData(getRequiredSections()->pluck('id')->toArray());
         $data['statusList'] = getApplicationStatusList(true, true);
         // Add a new item to the collection for display Disposed application count (Approved + Reject) - Lalit Tiwari (17/04/2025)
-        $data['statusList']->push((object)[
-            'item_code' => 'APP_DES',
-            'item_name' => 'Disposed'
-        ]);
+       
    
         $propArea = DB::select('call get_property_area_details()');
         // dd($propArea);
