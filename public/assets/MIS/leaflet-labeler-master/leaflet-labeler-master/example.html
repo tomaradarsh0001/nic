@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Labels in Leaflet? - Points</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+        <link rel="stylesheet" href="leaflet-labeler.css" />
+        <script src="leaflet-labeler.js"></script>
+        <style>
+            html, body {
+                height: 100%;
+                margin: 0;
+            }
+            #map_div {
+                width: 100%;
+                height: 100%;
+            }
+            #controlpanel {
+                z-index: 10000;
+                position: absolute;
+                bottom: 0; left: 0;
+                background: #fff;
+                padding: 10px;
+                text-align: center;
+            }
+            #sliders {
+                position: relative;
+                width: 300px;
+                height: 25px;
+            }
+            input[type=range] {
+                -webkit-appearance: none; 
+                appearance: none;
+                height: 2px;
+                width: 100%;
+                position: absolute;
+                top: 10px; left: 0;
+                background-color: #ccc;
+                pointer-events: none;                
+            }
+            input[type=range]:focus {
+                outline: none;
+            }
+            input[type=range]::-moz-range-thumb {
+                pointer-events: all;
+                -webkit-appearance: none;
+                appearance: none;
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                border-width: 3px;
+                border-color: #ccc rgba(0,0,0,0) #ccc rgba(0,0,0,0);
+                background-color: rgba(0,0,0,0);
+                cursor: pointer;
+            }
+            
+            input[type=range]::-webkit-slider-thumb {
+                pointer-events: all;
+                -webkit-appearance: none;
+                appearance: none;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                border: solid 3px #fff;
+                border-color: #ccc rgba(0,0,0,0) #ccc rgba(0,0,0,0);
+                background-color: rgba(0,0,0,0);
+                /*box-shadow: 0 0 0 1px #ccc;*/
+                cursor: pointer;
+            }            
+            #popslidermin::-webkit-slider-thumb {
+                border-left-color: green;
+            }
+            #popslidermin::-moz-range-thumb {
+                border-left-color: green;
+            }
+            #popslidermax::-webkit-slider-thumb {
+                border-right-color: red;
+            }
+            #popslidermax::-moz-range-thumb {
+                border-right-color: red;
+            }
+            #popslidermax {
+                height: 0;
+                z-index: 10001;                
+                transform: translateY(1px);               
+            }
+        </style>
+    </head>
+    <body>
+        <div id="map_div"></div>
+        <div id="controlpanel">
+            Population range:
+            <div id="sliders">
+                <input type="range" id="popslidermin" min="0" max="2000000" onchange="setPop(this.value-0, null)" />
+                <input type="range" id="popslidermax" min="0" max="2000000" onchange="setPop(null, this.value-0)" />
+            </div>
+            <span id="popvalue"></span>
+        </div>
+        <script>
+            const ps1 = document.querySelector('#popslidermin'),
+                  ps2 = document.querySelector('#popslidermax'),
+                  pv = document.querySelector('#popvalue');
+                  psmax = ps1.getAttribute('max')-0,
+                  pscorr = psmax/Math.pow(psmax,1/3);
+            
+            var minPop = 10, maxPop = 2000000;
+            setSlider(minPop, maxPop);
+            
+            function setSlider(minP, maxP) {
+                minPop = minP;
+                maxPop = maxP;
+                // create cubic charactersitics to slider
+                let minPlog = Math.pow(minP,1/3)*pscorr;
+                let maxPlog = Math.pow(maxP,1/3)*pscorr;
+                ps1.value = minPlog;
+                ps2.value = maxPlog;
+                pv.textContent=`${minPop} – ${maxPop}`;
+            }
+            
+            // event handler for population sliders
+            function setPop(minP, maxP) {
+                if (minP) {
+                    let p=Math.round(Math.pow(minP/pscorr,3));
+                    minPop=p;
+                    if (p>maxPop) {
+                        ps2.value=maxP;
+                        maxPop=p;
+                    }
+                }
+                if (maxP) {
+                    let p=Math.round(Math.pow(maxP/pscorr,3));
+                    maxPop=p;
+                    if (p<minPop) {
+                        ps1.value=minP;
+                        minPop=p;
+                    }
+                }
+                document.querySelector('#popvalue').textContent=`${minPop} – ${maxPop}`;
+                ll.update();
+            }
+            document.querySelector('#popslidermin').value=minPop;
+            document.querySelector('#popslidermax').value=maxPop;
+            document.querySelector('#popvalue').textContent=`${minPop} – ${maxPop}`;
+            
+            // list object properties in html format
+            let props = o => {
+                let s = '';
+                for (let i in o) s += i + ': ' + o[i] + '<br/>';
+                return s;
+            }
+
+            // create map object
+            const map = L.map('map_div').fitBounds([[45.5, 16], [48.5, 23]]);
+            
+            // add OSM tile layer
+            const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            
+            // fetch geojson data and create a layer with labels
+            fetch('hu_settl.geojson').then(r => r.json()).then(d => {
+                // new layer stored in global variable to make debugging easier
+                window.ll = L.labeler(d, {
+                    pointToLayer: (gj, ll) => L.circleMarker(ll, {
+                        radius:gj.properties.population?Math.pow(gj.properties.population,.2)-1:1
+                    }), 
+                    labelProp: 'name', 
+                    labelFunc: l=>(`${l.feature.properties.name} (${l.feature.properties.population})`),
+                    labelPos: 'auto', 
+                    labelStyle: f=>(f.properties.place=='city'?{ textTransform: 'uppercase', fontWeight:'bold' }:{}),
+                    style: f=>({ color: '#000', weight: f.properties.place=='city'?3:1 }),
+                    priorityProp: 'population',
+                    viewFilter: f=>(f.properties.population-0<=maxPop&&f.properties.population-0>=minPop),
+                }).addTo(map).bindPopup(l => props(l.feature.properties));
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,253 @@
+.bootstrap-select {
+    width: 100% !important;
+}
+
+select.selectpicker {
+    display: block !important;
+}
+
+.bootstrap-select>.dropdown-toggle {
+    max-width: 100% !important;
+}
+
+.rgrStatus {
+    background-color: rgb(220 63 59 / 13%);
+    color: #dc3545 !important;
+    padding: 2px 6px;
+}
+/* .table th,.table td{
+    text-align: center !important;
+} */
+.table-info {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 12;
+    text-transform: uppercase;
+    text-align: center
+}
+
+.table-info th,
+.table-info td {
+    border: 1px solid #ddd;
+}
+
+.calculate-table th{
+    background-color: #f2f5f2;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.table-info th {
+    background-color: #f2f5f2;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+}
+
+.table-info td {
+    background-color: #fff !important;
+}
+
+.table-top td {
+    padding: 20px !important
+}
+
+label {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.btn-success {
+    color: #fff !important;
+    background-color: #59bd60 !important;
+    border-color: #59bd60 !important
+}
+
+.notifications {
+    position: absolute;
+    right: 0;
+    background: transparent;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.notification {
+    background: #f3f373;
+    padding: 5px;
+    display: flex;
+    border: 1px solid yellow;
+    border-radius: 5px;
+    margin: 2px;
+    text-align: right;
+    position: relative;
+    justify-content: right;
+    top: -65px !important;
+}
+
+.notification .hoverable {
+    cursor: pointer;
+    color: navy;
+    text-decoration: none;
+}
+
+.btn-draft {
+    white-space: nowrap;
+    background: #EFFFFF;
+    box-shadow: 2px 0px 3px 0px #aaa;
+}
+
+.btn-pdf {
+    white-space: nowrap;
+    background: #FFEFEF;
+    color: #f55 !important;
+    box-shadow: 2px 0px 3px 0px #aaa;
+}
+
+a.view-icons {
+    background: white;
+    width: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    margin-left: 10px;
+    padding: 2px 5px;
+    gap: 5px;
+    text-decoration: none;
+}
+
+.toast-body {
+    padding: var(--bs-toast-padding-x);
+    word-wrap: break-word;
+    display: flex;
+    justify-content: space-between;
+}
+
+.toast {
+    width: auto;
+}
+
+.toast-container>:not(:last-child) {
+    margin-bottom: 10px !important;
+}
+
+.top-3 {
+    top: 3rem !important;
+}
+
+#colony-rows .btn {
+    margin: 5px;
+    white-space: nowrap;
+}
+
+.btn-success {
+    color: #fff !important;
+    background-color: #59bd60 !important;
+    border-color: #59bd60 !important
+}
+
+.disabled-link {
+    cursor: not-allowed !important;
+    opacity: 0.3;
+}
+
+a.btn-danger {
+    color: #fff !important;
+}
+
+.confirmation {
+    width: 60%
+}
+
+.confirmation-buttons {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.confirmation button {
+    padding: 5px 20px;
+}
+
+#calculate-table tbody.cloned {
+    margin-top: 2%;
+}
+
+.amount.hasValue:after {
+    content: '/-';
+    display: inline;
+}
+
+.transfer-details .qmark:hover~.transfer-list {
+    display: inline-block;
+}
+
+ul.transfer-list {
+    list-style: none;
+    display: none;
+    position: absolute;
+    background: #116d6e;
+    color: white;
+    width: auto;
+    margin: 0;
+    padding: 10px 0px;
+    opacity: 0.85;
+    min-width: 785px;
+    bottom: 0px;
+    left: 15px;
+}
+
+.transfer-list-item {
+    margin-left: 0 !important;
+    display: flex;
+    flex-direction: row;
+}
+
+.transfer-list-item div {
+    margin: 2px 5px;
+    border: 1px solid white;
+    padding: 1px 5px;
+}
+
+.transfer-list-item div:nth-child(1) {
+    width: 8%;
+}
+
+.transfer-list-item div:nth-child(2) {
+    width: 25%;
+}
+
+.transfer-list-item div:nth-child(3) {
+    width: 27%;
+}
+
+.transfer-list-item div:nth-child(4) {
+    min-width: 40%;
+    /* white-space: nowrap; */
+}
+
+.qmark {
+    background: #116d6e;
+    padding: 1px 3px;
+    color: white;
+    cursor: pointer;
+    border-radius: 50%;
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
+    align-items: center;
+    justify-content: center;
+  }
+  span.qmark:hover ul.transfer-list {
+    display: block;
+  }
+  li.transfer-list-item.row.row-lg-4 {
+    margin: 0px !important;
+}
+.highlightedRow{
+    background: #dfd;
+}
+
+/* .hasNoValue{
+    background: #dbdbdb !important;
+} */

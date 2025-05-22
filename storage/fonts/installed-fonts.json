@@ -1,0 +1,33 @@
+{
+    "open sans": {
+        "300": "\/var\/app\/current\/storage\/fonts\/open_sans_300_39ef945f04dffafb40d0e4258ccaa41b",
+        "normal": "\/var\/app\/current\/storage\/fonts\/open_sans_normal_3760d4dc48428d77234c57aacbf4be3d",
+        "600": "\/var\/app\/current\/storage\/fonts\/open_sans_600_b1ce21e0a900a5106e97539d2f082999",
+        "bold": "\/var\/app\/current\/storage\/fonts\/open_sans_bold_76cc12ba903c653efae07dd0b62d46cf",
+        "800": "open_sans_800_da8832a9546e2fae7cc865fab9ab6837"
+    },
+    "poppins": {
+        "normal": "\/var\/app\/current\/storage\/fonts\/poppins_normal_76df55b5114b1626b7db1a4cd816c320",
+        "500": "\/var\/app\/current\/storage\/fonts\/poppins_500_90dcab88268cf6d3f77b33841917903c",
+        "bold": "\/var\/app\/current\/storage\/fonts\/poppins_bold_cc53e8e8659afa950c49e4494cbb2708",
+        "800": "\/var\/app\/current\/storage\/fonts\/poppins_800_e36b15aa8fae738b721cafc53868de52",
+        "900": "poppins_900_4f72b1f9653154f66553c38e547a606a"
+    },
+    "roboto": {
+        "italic": "\/var\/app\/current\/storage\/fonts\/roboto_italic_fb9dbc1b59a353dbcaca04fe08ac7537",
+        "100": "\/var\/app\/current\/storage\/fonts\/roboto_100_81da20a7c5fb175e52e6ee4196e29c80",
+        "300": "\/var\/app\/current\/storage\/fonts\/roboto_300_946532f67a57584be06dd863f541ac7d",
+        "normal": "\/var\/app\/current\/storage\/fonts\/roboto_normal_db1168cc5f8fc5193d9c7b7eda0425aa",
+        "500": "\/var\/app\/current\/storage\/fonts\/roboto_500_d177939444fd8c92ee010dd8555b80cd",
+        "bold": "roboto_bold_24123a87fbd881816d70b33a3b5b8d72"
+    },
+    "jost": {
+        "300": "\/var\/app\/current\/storage\/fonts\/jost_300_c772442abd19526dcb0df98c2cc6621b",
+        "normal": "\/var\/app\/current\/storage\/fonts\/jost_normal_ed1bd84d29efa0ad0f4c548382346d43",
+        "500": "\/var\/app\/current\/storage\/fonts\/jost_500_241c869d053c9db8820ea96cce29bede",
+        "600": "\/var\/app\/current\/storage\/fonts\/jost_600_4790d27231b6f6e58117e4df62765698",
+        "bold": "\/var\/app\/current\/storage\/fonts\/jost_bold_c0e8330eb24a0e31e5bf774c2cf4fcff",
+        "800": "\/var\/app\/current\/storage\/fonts\/jost_800_49453d02a965b2b5bfb51d4e5b36a984",
+        "900": "jost_900_65964ab6a718e18266283b7e870ddfcd"
+    }
+}
