@@ -100,7 +100,52 @@ $number_of_colonies = getMisDoneColoniesCount();
    
 </div>
 
-
+<div class="container-fluid">
+    @if ($applicationData)
+    <div class="col-lg-12 col-12" style="margin-bottom: 25px;">
+        <div class="card offorangecard totalApp" style="margin-bottom: 0px;">
+            <div class="card-body">
+                <div class="dashboard-card-view">
+                    <h4><a href="{{ route('admin.applications') }}" style="color: inherit">Total
+                            Applications:
+                            <span id="totalAppCount">{{ $applicationData['totalAppCount'] }}</span></a></h4>
+                    <div class="container-fluid">
+                        <div class="row separate-col-border">
+                            @foreach ($statusList as $i => $status)
+                            @if($status->item_code != "APP_CAN" && $status->item_code != "APP_OBJ")
+                                <div class="custom-col-col col-md-6 col-lg-2">
+                                    @if ($status->item_name == 'Disposed')
+                                        <a href="{{ route('applications.disposed') }}">
+                                            <span class="dashboard-label">{{ $status->item_name }}:</span>
+                                            <span
+                                                id="total-{{ $status->item_code }}">{{ isset($applicationData['statusWiseCounts'][$status->item_code]) ? $applicationData['statusWiseCounts'][$status->item_code] : 0 }}</span></a>
+                                    @else
+                                        <a
+                                            href="{{ route('admin.applications', ['status' => Crypt::encrypt(" $status->item_code")]) }}">
+                                            <span class="dashboard-label">{{ $status->item_name }}:</span>
+                                            <span
+                                                id="total-{{ $status->item_code }}">{{ isset($applicationData['statusWiseCounts'][$status->item_code]) ? $applicationData['statusWiseCounts'][$status->item_code] : 0 }}</span></a>
+                                    @endif
+                                </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                {{-- <div class="row mt-4">
+                @foreach ($statusList as $status)
+                <div class="custom-col-col col-4 col-lg-2">
+                    <span class="status_name">{{$status->item_name}}</span> <span
+                        class="status_value">{{isset($statusWiseCounts[$status->item_code]) ?
+                        $statusWiseCounts[$status->item_code] : 0}}</span>
+                </div>
+                @endforeach
+            </div> --}}
+            </div>
+        </div>
+    </div>
+                @endif
+</div>
 <div class="container-fluid">
     <div class="row row-cols-2 row-cols-md-2 row-cols-xl-4 custom_card_container">
         <div class="col">

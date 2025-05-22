@@ -275,8 +275,8 @@ Route::middleware('auth')->group(function () {
     Route::post('delete-file-for-cdv', [AdminApplicationController::class, 'deleteFileforCdv'])->name('deleteFileforCdv');
     Route::post('save-official-documents', [AdminApplicationController::class, 'saveOfficialDocs'])->name('saveOfficialDocs');
        // Received & Disposed Applications Routes - Lalit Tiwari (27/Feb/2025)
-   // Route::get('admin/applications/disposed', [AdminApplicationController::class, 'applicationsDisposed'])->name('applications.disposed');
-   // Route::get('getApplicationsDisposed', [AdminApplicationController::class, 'getApplicationsDisposed'])->name('get.applications.disposed');
+   Route::get('admin/applications/disposed', [AdminApplicationController::class, 'applicationsDisposed'])->name('applications.disposed');
+   Route::get('getApplicationsDisposed', [AdminApplicationController::class, 'getApplicationsDisposed'])->name('get.applications.disposed');
     //route added by nitin for technical users
 
     Route::get('admin/applicationsAssignedToUser/{onlyCurrentApplicatinos?}', [AdminApplicationController::class, 'applicationsAssignedToUser'])->name('admin.applicationsAssignedToUser')->middleware('permission:view.applications');

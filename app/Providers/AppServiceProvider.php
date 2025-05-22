@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // http scheme forced for local system for running in development environment by Adarsh
-        \URL::forceScheme('https');
+        \URL::forceScheme('http');
         Paginator::useBootstrapFive();
         Paginator::useBootstrapFour();
     }
