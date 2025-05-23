@@ -132,6 +132,7 @@ class ApplicationController extends Controller
             '', // index 10
             '', // index 11
             'created_at', // index 12
+            'latest_moved_at', // index 13
         ];
 
         $serviceType1 = getServiceType('SUB_MUT'); // Ensure this function is defined and works properly.
@@ -147,6 +148,19 @@ class ApplicationController extends Controller
             ->leftJoin('old_colonies as oc', 'pm.new_colony_name', '=', 'oc.id')
             ->leftJoin('property_lease_details as pld', 'pm.id', '=', 'pld.property_master_id')
             ->leftJoin('applications as app', 'ma.application_no', '=', 'app.application_no')
+            ->leftJoinSub(
+                DB::table('application_movements')
+                    ->select('application_no', DB::raw('MAX(created_at) as latest_created_at'))
+                    ->groupBy('application_no'),
+                'latest_apm',
+                function ($join) {
+                    $join->on('ma.application_no', '=', 'latest_apm.application_no');
+                }
+            )
+            ->leftJoin('application_movements as apm', function ($join) {
+                $join->on('ma.application_no', '=', 'apm.application_no')
+                    ->on('apm.created_at', '=', 'latest_apm.latest_created_at');
+            })
             ->leftJoinSub(
                 DB::table('application_statuses')
                     ->select(
@@ -190,6 +204,7 @@ class ApplicationController extends Controller
                 'pm.plot_or_property_no',
                 'pld.presently_known_as',
                 'app.is_objected',
+                'apm.created_at as latest_moved_at',
                 DB::raw('NULL as flat_id'), // Add NULL for flat_id on dated 07/01/25 By Lalit Tiwari
                 DB::raw('NULL as flat_number'), // Add NULL for flat_number on dated 07/01/25 By Lalit Tiwari
                 DB::raw("'MutationApplication' as model_name") // Add model_name for the first query
@@ -230,6 +245,19 @@ class ApplicationController extends Controller
             ->leftJoin('old_colonies', 'property_masters.new_colony_name', '=', 'old_colonies.id')
             ->leftJoin('property_lease_details', 'property_masters.id', '=', 'property_lease_details.property_master_id')
             ->leftJoin('applications as app', 'lca.application_no', '=', 'app.application_no')
+            ->leftJoinSub(
+                DB::table('application_movements')
+                    ->select('application_no', DB::raw('MAX(created_at) as latest_created_at'))
+                    ->groupBy('application_no'),
+                'latest_apm',
+                function ($join) {
+                    $join->on('lca.application_no', '=', 'latest_apm.application_no');
+                }
+            )
+            ->leftJoin('application_movements as apm', function ($join) {
+                $join->on('lca.application_no', '=', 'apm.application_no')
+                    ->on('apm.created_at', '=', 'latest_apm.latest_created_at');
+            })
             ->leftJoinSub(
                 DB::table('application_statuses')
                     ->select(
@@ -273,6 +301,7 @@ class ApplicationController extends Controller
                 'property_masters.plot_or_property_no',
                 'property_lease_details.presently_known_as',
                 'app.is_objected',
+                'apm.created_at as latest_moved_at',
                 DB::raw('NULL as flat_id'), // Add NULL for flat_id on dated 07/01/25 By Lalit Tiwari
                 DB::raw('NULL as flat_number'), // Add NULL for flat_number on dated 07/01/25 By Lalit Tiwari
                 DB::raw("'LandUseChangeApplication' as model_name") // Add model_name for the first query
@@ -314,6 +343,19 @@ class ApplicationController extends Controller
             ->leftJoin('property_lease_details', 'property_masters.id', '=', 'property_lease_details.property_master_id')
             ->leftJoin('flats', 'doa.flat_id', '=', 'flats.id')
             ->leftJoin('applications as app', 'doa.application_no', '=', 'app.application_no')
+             ->leftJoinSub(
+                DB::table('application_movements')
+                    ->select('application_no', DB::raw('MAX(created_at) as latest_created_at'))
+                    ->groupBy('application_no'),
+                'latest_apm',
+                function ($join) {
+                    $join->on('doa.application_no', '=', 'latest_apm.application_no');
+                }
+            )
+            ->leftJoin('application_movements as apm', function ($join) {
+                $join->on('doa.application_no', '=', 'apm.application_no')
+                    ->on('apm.created_at', '=', 'latest_apm.latest_created_at');
+            })
             ->leftJoinSub(
                 DB::table('application_statuses')
                     ->select(
@@ -357,6 +399,7 @@ class ApplicationController extends Controller
                 'property_masters.plot_or_property_no',
                 'property_lease_details.presently_known_as',
                 'app.is_objected',
+                'apm.created_at as latest_moved_at',
                 'flats.unique_flat_id as flat_id', // Add NULL for flat_id on dated 07/01/25 By Lalit Tiwari
                 'flats.flat_number as flat_number', // Add NULL for flat_id on dated 07/01/25 By Lalit Tiwari
                 DB::raw("'DeedOfApartmentApplication' as model_name") // Add model_name for the first query
@@ -400,6 +443,19 @@ class ApplicationController extends Controller
             ->leftJoin('old_colonies', 'property_masters.new_colony_name', '=', 'old_colonies.id')
             ->leftJoin('property_lease_details', 'property_masters.id', '=', 'property_lease_details.property_master_id')
             ->leftJoin('applications as app', 'ca.application_no', '=', 'app.application_no')
+             ->leftJoinSub(
+                DB::table('application_movements')
+                    ->select('application_no', DB::raw('MAX(created_at) as latest_created_at'))
+                    ->groupBy('application_no'),
+                'latest_apm',
+                function ($join) {
+                    $join->on('ca.application_no', '=', 'latest_apm.application_no');
+                }
+            )
+            ->leftJoin('application_movements as apm', function ($join) {
+                $join->on('ca.application_no', '=', 'apm.application_no')
+                    ->on('apm.created_at', '=', 'latest_apm.latest_created_at');
+            })
             ->leftJoinSub(
                 DB::table('application_statuses')
                     ->select(
@@ -443,6 +499,7 @@ class ApplicationController extends Controller
                 'property_masters.plot_or_property_no',
                 'property_lease_details.presently_known_as',
                 'app.is_objected',
+                'apm.created_at as latest_moved_at',
                 DB::raw('NULL as flat_id'), // Add NULL for flat_id
                 DB::raw('NULL as flat_number'), // Add NULL for flat_number on dated 07/01/25 By Lalit Tiwari
                 DB::raw("'ConversionApplication' as model_name") // Add model_name for the first query
@@ -485,6 +542,19 @@ class ApplicationController extends Controller
             ->leftJoin('old_colonies as oc', 'pm.new_colony_name', '=', 'oc.id')
             ->leftJoin('property_lease_details as pld', 'pm.id', '=', 'pld.property_master_id')
             ->leftJoin('applications as app', 'noc.application_no', '=', 'app.application_no')
+             ->leftJoinSub(
+                DB::table('application_movements')
+                    ->select('application_no', DB::raw('MAX(created_at) as latest_created_at'))
+                    ->groupBy('application_no'),
+                'latest_apm',
+                function ($join) {
+                    $join->on('noc.application_no', '=', 'latest_apm.application_no');
+                }
+            )
+            ->leftJoin('application_movements as apm', function ($join) {
+                $join->on('noc.application_no', '=', 'apm.application_no')
+                    ->on('apm.created_at', '=', 'latest_apm.latest_created_at');
+            })
             ->leftJoinSub(
                 DB::table('application_statuses')
                     ->select(
@@ -528,6 +598,7 @@ class ApplicationController extends Controller
                 'pm.plot_or_property_no',
                 'pld.presently_known_as',
                 'app.is_objected',
+                'apm.created_at as latest_moved_at',
                 DB::raw('NULL as flat_id'), // Add NULL for flat_id on dated 07/01/25 By Lalit Tiwari
                 DB::raw('NULL as flat_number'), // Add NULL for flat_number on dated 07/01/25 By Lalit Tiwari
                 DB::raw("'NocApplication' as model_name") // Add model_name for the first query
@@ -607,17 +678,31 @@ class ApplicationController extends Controller
             $nestedData['id'] = $key + 1;
             $applicationNumber = $application->application_no;
 
+            $userCurrentApplication = userCurrentActionableApplication();
+
             $appMovementCount = ApplicationMovement::where('application_no', $application->application_no)->count();
             if (Auth::user()->roles[0]->name == 'section-officer' && getServiceCodeById($application->status) == 'APP_NEW') {
-                $applicationNumber = '<div class="d-flex gap-2 align-items-center">' . $application->application_no . '<div class="alertDot"></div></div>';
+                if ($userCurrentApplication == $application->application_no && $userCurrentApplication != null) {
+                    $applicationNumber = '<div class="d-flex gap-2 align-items-center">' . $application->application_no . '<div class="alertGreen"></div></div>';
+                } else {
+                    $applicationNumber = '<div class="d-flex gap-2 align-items-center">' . $application->application_no . '<div class="alertDot"></div></div>';
+                }
             } else if (Auth::user()->roles[0]->name == 'section-officer' && getServiceCodeById($application->status) == 'APP_IP' &&     $appMovementCount == 1) {
-                $applicationNumber = '<div class="d-flex gap-2 align-items-center">' . $application->application_no . '<div class="alertDot"></div></div>';
+                if ($userCurrentApplication == $application->application_no && $userCurrentApplication != null) {
+                    $applicationNumber = '<div class="d-flex gap-2 align-items-center">' . $application->application_no . '<div class="alertGreen"></div></div>';
+                } else {
+                    $applicationNumber = '<div class="d-flex gap-2 align-items-center">' . $application->application_no . '<div class="alertDot"></div></div>';
+                }
             } else {
                 $latestRecord = ApplicationMovement::where('application_no', $application->application_no)
                     ->latest('created_at')
                     ->first();
                 if (!is_null($latestRecord) && $latestRecord->assigned_to == Auth::user()->id) {
-                    $applicationNumber = '<div class="d-flex gap-2 align-items-center">' . $application->application_no . '<div class="alertDot"></div></div>';
+                    if ($userCurrentApplication == $application->application_no && $userCurrentApplication != null) {
+                        $applicationNumber = '<div class="d-flex gap-2 align-items-center">' . $application->application_no . '<div class="alertGreen"></div></div>';
+                    } else {
+                        $applicationNumber = '<div class="d-flex gap-2 align-items-center">' . $application->application_no . '<div class="alertDot"></div></div>';
+                    }
                 } else {
                     $applicationNumber = $application->application_no;
                 }
@@ -713,7 +798,10 @@ class ApplicationController extends Controller
             $nestedData['action'] = $action;
             $nestedData['created_at'] = Carbon::parse($application->created_at)
                                         ->setTimezone('Asia/Kolkata')
-                                        ->format('d M Y H:i:s');
+                                        ->format('d/m/Y H:i:s');
+            $nestedData['latest_moved_at'] = Carbon::parse($application->latest_moved_at)
+                ->setTimezone('Asia/Kolkata')
+                ->format('d/m/Y h:m:s');
 
             $data[] = $nestedData;
         }

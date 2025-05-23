@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Template;
 use App\Models\Section;
+use App\Models\ApplicationMovement;
 
 if (!function_exists('customNumFormat')) {
     function customNumFormat($num)
@@ -476,5 +477,22 @@ if (!function_exists('getProperyStatusFromOldPropetyId')) {
             return $childProperty->property_status;
         }
         return $property_status;
+    }
+}
+
+if(!function_exists('userCurrentActionableApplication')){
+    function userCurrentActionableApplication()
+    {
+
+        $authuser = Auth::user();
+        $userId = $authuser->id;
+        $allMovements = ApplicationMovement::where('service_type','!=',1370)->orderBy('created_at', 'desc')->get();
+        $latestMovements = $allMovements->unique('application_no');
+        $userAssigned = $latestMovements->where('assigned_to', $userId);
+        $latestAssigned = $userAssigned->sortBy('created_at')->first();
+        if(is_null($latestAssigned)){
+            return null;
+        }
+        return $latestAssigned['application_no'];
     }
 }

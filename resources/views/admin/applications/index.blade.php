@@ -66,9 +66,9 @@
     <div class="ps-3">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0 p-0">
-                <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                <li class="breadcrumb-item"><a href="{{route('dashboard')}}"><i class="bx bx-home-alt"></i></a>
                 </li>
-                <li class="breadcrumb-item active" aria-current="page">Applications List</li>
+                <li class="breadcrumb-item active" aria-current="page">Applications</li>
             </ol>
         </nav>
     </div>
@@ -81,8 +81,13 @@
         <div class="d-flex justify-content-end">
             <ul class="d-flex gap-3">
                 <li class="list-group-item d-flex gap-2 align-items-center flex-wrap">
+                    <div class="alertGreen"></div>
+                    <span class="text-secondary">First Actionable</span>
+                </li>
+                <li class="list-group-item d-flex gap-2 align-items-center flex-wrap">|</li>
+                <li class="list-group-item d-flex gap-2 align-items-center flex-wrap">
                     <div class="alertDot"></div>
-                    <span class="text-secondary">Have To Take Action</span>
+                    <span class="text-secondary">Actionable</span>
                 </li>
                 <li class="list-group-item d-flex gap-2 align-items-center flex-wrap">
                     <i class="lni lni-spellcheck fs-5" style="color:#6610f2"></i>
@@ -127,6 +132,7 @@
                         </select>
                     </th>
                     <th>Applied At</th>
+                     <th>Last Updated At</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -369,6 +375,10 @@
                 {
                     data: 'created_at',
                     name: 'created_at',
+                },
+                {
+                    data: 'latest_moved_at',
+                    name: 'latest_moved_at',
                 },
                 {
                     data: 'action',
